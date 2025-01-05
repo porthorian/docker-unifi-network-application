@@ -64,11 +64,26 @@ if [[ ! -e /config/data/system.properties ]]; then
     fi
 fi
 
-# generate key
+# configure keystore
 if [[ ! -f /config/data/keystore ]]; then
-    keytool -genkey -keyalg RSA -alias unifi -keystore /config/data/keystore \
-    -storepass aircontrolenterprise -keypass aircontrolenterprise -validity 3650 \
-    -keysize 4096 -dname "cn=unifi" -ext san=dns:unifi
+    if [[ -f /certs/tls.crt ]]; then
+        echo "*** DETECTED self signed certificate, adding to keystore, not generating unique ***"
+        keytool_command="keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise"
+
+        if [[ -n "${CRT_PASS}" ]]; then
+            keytool_command+=" -keypass ${CRT_PASS}"
+        fi
+
+        keytool_command+=" -alias unifi -file /certs/tls.crt -noprompt"
+
+        # Execute the constructed command
+        eval $keytool_command
+    else
+        # generate key
+        keytool -genkey -keyalg RSA -alias unifi -keystore /config/data/keystore \
+        -storepass aircontrolenterprise -keypass aircontrolenterprise -validity 3650 \
+        -keysize 4096 -dname "cn=unifi" -ext san=dns:unifi
+    fi 
 fi
 
 # permissions
