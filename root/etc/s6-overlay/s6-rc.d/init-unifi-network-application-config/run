@@ -66,7 +66,7 @@ fi
 
 # configure keystore
 if [[ ! -f /config/data/keystore ]]; then
-    if [[ -f /certs/tls.crt ]]; then
+    if [[ -f /certs/keystore.p12 ]]; then
         echo "*** DETECTED certificate, adding to keystore, not generating unique ***"
 
         # keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise \
