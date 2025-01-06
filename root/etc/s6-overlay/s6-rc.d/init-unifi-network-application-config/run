@@ -66,13 +66,10 @@ fi
 
 # configure keystore
 if [[ ! -f /config/data/keystore ]]; then
-    if [[ -f /certs/keystore.p12 ]]; then
+    if [[ -f /certs/keystore.jks ]]; then
         echo "*** DETECTED certificate, adding to keystore, not generating unique ***"
 
-        # keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise \
-        # -alias unifi -file /certs/tls.crt -noprompt -v
-        keytool -importkeystore -srckeystore /certs/keystore.p12 -srcstoretype PKCS12 -srcstorepass aircontrolenterprise -destkeystore /config/data/keystore -deststoretype PKCS12 -storepass aircontrolenterprise
-
+        keytool -importkeystore -srckeystore /certs/keystore.jks -srcstoretype JKS -srcstorepass aircontrolenterprise -destkeystore /config/data/keystore -deststoretype JKS -storepass aircontrolenterprise
 
         echo "*** Certificate inserted ***"
     else
