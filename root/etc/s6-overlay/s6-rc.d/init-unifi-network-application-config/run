@@ -69,8 +69,10 @@ if [[ ! -f /config/data/keystore ]]; then
     if [[ -f /certs/tls.crt ]]; then
         echo "*** DETECTED certificate, adding to keystore, not generating unique ***"
 
-        keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise \
-        -alias unifi -file /certs/tls.crt -noprompt -v
+        # keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise \
+        # -alias unifi -file /certs/tls.crt -noprompt -v
+        keytool -importkeystore -srckeystore /certs/keystore.p12 -srcstoretype PKCS12 -srcstorepass aircontrolenterprise -destkeystore /config/data/keystore -deststoretype PKCS12 -storepass aircontrolenterprise
+
 
         echo "*** Certificate inserted ***"
     else
