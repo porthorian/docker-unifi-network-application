@@ -78,7 +78,7 @@ if [[ ! -f /config/data/keystore ]]; then
 
         # Execute the constructed command
         eval $keytool_command
-        echo "*** Self Signed certificate inserted"
+        echo "*** Self Signed certificate inserted ***"
     else
         # generate key
         keytool -genkey -keyalg RSA -alias unifi -keystore /config/data/keystore \
