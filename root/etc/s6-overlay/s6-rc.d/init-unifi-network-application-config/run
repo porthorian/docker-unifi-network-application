@@ -67,18 +67,12 @@ fi
 # configure keystore
 if [[ ! -f /config/data/keystore ]]; then
     if [[ -f /certs/tls.crt ]]; then
-        echo "*** DETECTED self signed certificate, adding to keystore, not generating unique ***"
-        keytool_command="keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise"
+        echo "*** DETECTED certificate, adding to keystore, not generating unique ***"
 
-        if [[ -n "${CRT_PASS}" ]]; then
-            keytool_command+=" -keypass ${CRT_PASS}"
-        fi
+        keytool -import -keystore /config/data/keystore -storepass aircontrolenterprise \
+        -alias unifi -file /certs/tls.crt -noprompt -v
 
-        keytool_command+=" -alias unifi -file /certs/tls.crt -noprompt"
-
-        # Execute the constructed command
-        eval $keytool_command
-        echo "*** Self Signed certificate inserted ***"
+        echo "*** Certificate inserted ***"
     else
         # generate key
         keytool -genkey -keyalg RSA -alias unifi -keystore /config/data/keystore \
