@@ -19,12 +19,13 @@ RUN \
   apt-get install --no-install-recommends -y \
     jsvc \
     logrotate \
-    openjdk-21-jre-headless \
+    openjdk-17-jre-headless \
     unzip && \
   echo "**** install unifi ****" && \
   if [ -z ${UNIFI_VERSION+x} ]; then \
-    UNIFI_VERSION=$(curl -sX GET https://dl.ui.com/unifi/debian/dists/${UNIFI_BRANCH}/ubiquiti/binary-amd64/Packages \
-    |grep -A 7 -m 1 'Package: unifi' \
+    UNIFI_VERSION=$(curl -sX GET https://dl.ui.com/unifi/debian/dists/${UNIFI_BRANCH}/ubiquiti/binary-amd64/Packages.gz \
+    | gunzip \
+    | grep -A 7 -m 1 'Package: unifi' \
     | awk -F ': ' '/Version/{print $2;exit}' \
     | awk -F '-' '{print $1}'); \
   fi && \
