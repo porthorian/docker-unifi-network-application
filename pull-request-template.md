@@ -81,3 +81,4 @@ Users can now bring their own certificate and not have to worry about configurin
 
 ## Source / References:
 <!--- Please include any forum posts/github links relevant to the PR -->
+* https://github.com/linuxserver/docker-unifi-network-application/issues/78
