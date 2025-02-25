@@ -82,3 +82,4 @@ Users can now bring their own certificate and not have to worry about configurin
 ## Source / References:
 <!--- Please include any forum posts/github links relevant to the PR -->
 * https://github.com/linuxserver/docker-unifi-network-application/issues/78
+* https://github.com/nginx/nginx-gateway-fabric/pull/3084 (also the reason why I had to go through this amount of effort)
