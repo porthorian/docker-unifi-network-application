@@ -5,7 +5,6 @@
 [![Blog](https://img.shields.io/static/v1.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=linuxserver.io&message=Blog)](https://blog.linuxserver.io "all the things you can do with our containers including How-To guides, opinions and much more!")
 [![Discord](https://img.shields.io/discord/354974912613449730.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=Discord&logo=discord)](https://linuxserver.io/discord "realtime support / chat with the community and the team.")
 [![Discourse](https://img.shields.io/discourse/https/discourse.linuxserver.io/topics.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=discourse)](https://discourse.linuxserver.io "post on our community forum.")
-[![Fleet](https://img.shields.io/static/v1.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=linuxserver.io&message=Fleet)](https://fleet.linuxserver.io "an online web interface which displays all of our maintained images.")
 [![GitHub](https://img.shields.io/static/v1.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=linuxserver.io&message=GitHub&logo=github)](https://github.com/linuxserver "view the source for all of our repositories.")
 [![Open Collective](https://img.shields.io/opencollective/all/linuxserver.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=Supporters&logo=open%20collective)](https://opencollective.com/linuxserver "please consider helping us by either donating or contributing to our budget")
 
@@ -22,7 +21,6 @@ Find us at:
 * [Blog](https://blog.linuxserver.io) - all the things you can do with our containers including How-To guides, opinions and much more!
 * [Discord](https://linuxserver.io/discord) - realtime support / chat with the community and the team.
 * [Discourse](https://discourse.linuxserver.io) - post on our community forum.
-* [Fleet](https://fleet.linuxserver.io) - an online web interface which displays all of our maintained images.
 * [GitHub](https://github.com/linuxserver) - view the source for all of our repositories.
 * [Open Collective](https://opencollective.com/linuxserver) - please consider helping us by either donating or contributing to our budget
 
@@ -54,7 +52,6 @@ The architectures supported by this image are:
 | :----: | :----: | ---- |
 | x86-64 | ✅ | amd64-\<version tag\> |
 | arm64 | ✅ | arm64v8-\<version tag\> |
-| armhf | ❌ | |
 
 ## Application Setup
 
@@ -88,7 +85,8 @@ db.createUser({
   pwd: "${MONGO_PASS}",
   roles: [
     { db: "${MONGO_DBNAME}", role: "dbOwner" },
-    { db: "${MONGO_DBNAME}_stat", role: "dbOwner" }
+    { db: "${MONGO_DBNAME}_stat", role: "dbOwner" },
+    { db: "${MONGO_DBNAME}_audit", role: "dbOwner" }
   ]
 })
 EOF
@@ -418,6 +416,7 @@ Once registered you can define the dockerfile to use with `-f Dockerfile.aarch64
 
 ## Versions
 
+* **08.05.25:** - Update sample `init-mongo.sh` for compatibility with 9.1.120 (only affects new installs).
 * **13.02.25:** - Revert JRE to 17.
 * **12.02.25:** - Bump JRE to 21.
 * **11.08.24:** - **Important**: The mongodb init instructions have been updated to enable auth ([RBAC](https://www.mongodb.com/docs/manual/core/authorization/#role-based-access-control)). We have been notified that if RBAC is not enabled, the official mongodb container allows remote access to the db contents over port 27017 without credentials. If you set up the mongodb container with the old instructions we provided, you should not map or expose port 27017. If you would like to enable auth, the easiest way is to create new instances of both unifi and mongodb with the new instructions and restore unifi from a backup.
